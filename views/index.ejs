@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  
+    <!-- Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+
+    <h1><%= title %></h1>
+    <table>
+        <tr>
+            <th>nom</th>
+            <th>code</th>
+            <th>nombre_produits</th>
+        </tr>
+    <% results.forEach(function(result) { %>
+       <tr>
+        <td><a href='/api/<%- result.id -%>'><%= result.nom %></a></td>
+        <td><%= result.code %></td>
+        <td><%= result.nombre_produits %></td>
+       </tr>
+    <% }); %>
+    </tr>
+    </table>
+  </body>
+</html>

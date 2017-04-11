@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <table>
+        <tr>
+            <th>nom</th>
+            <th>code</th>
+            <th>description</th>
+            <th>tarif</th>
+            <th>poids</th>
+        </tr>
+        
+    <% results.forEach(function(result) { %>
+      <tr>
+        <td><%= result.nom %></td>
+        <td><%= result.code %></td>
+        <td><%= result.description %></td>
+        <td><%= result.tarif %></td>
+        <td><%= result.poids %></td>
+       </tr>
+    <% }); %>
+    </table>
+  </body>
+</html>
