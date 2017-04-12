@@ -1,7 +1,7 @@
 var KELEY = require('../models/catalogue').KELEY;
 
 exports.index = function (req, res) {
-    KELEY.find({},{},function(err, doc){
+    KELEY.find({},{},function(err, doc, next){
         if (err) return next(err);
         else if (!doc) console.log("catalogue n'existe pas")
         else {
@@ -11,53 +11,26 @@ exports.index = function (req, res) {
     })
 }
 
-exports.addCatalogue = function (req, res) {
-    var nom = req.body.nom;
-    var code = req.body.code;
-
-    var catalogue = new KELEY({
-        nom: nom,
-        code: code
-    })
-
-    catalogue.save(function(err){
-        if (err) return next(err);
-    })
+exports.addCatalogue = function (req, res, next) {
+    KELEY.create(req.body, function (err, post) {
+        if (err) {console.log(err);return next(err);}
+        console.log(post)
+        res.json(post);
+    });
 }
 
 exports.updateCatalogue = function (req, res) {
-    var nom = req.body.nom;
-    var code = req.body.code;
-    var nomCatalogue = req.body.nomCatalogue;
-    var codeCatalogue = req.body.codeCatalogue;
-    var id = req.body.id;
-
-    KELEY.findByIdAndUpdate({$or:[{'_id': id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
+    KELEY.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
-        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
-        else {
-            doc.nom = nom;
-            doc.code = code;
-            
-            doc.save(function(err){
-                if (err) return next(err);
-            })
-        }
-    })
+        res.json(post);
+    });
 }
 
 exports.deleteCatalogue = function (req, res) {
-    var nomCatalogue = req.body.nomCatalogue;
-    var codeCatalogue = req.body.codeCatalogue;
-    var id = req.body.id;
-
-    KELEY.findByIdAndRemove({$or:[{'_id': id}, {'nom': nomCatalogue}, {'code': codeCatalogue} ]}, function(err, doc){
+    KELEY.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
-        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
-        else {
-            
-        }
-    })
+        res.json(post);
+    });
 }
 
 exports.allProduit = function (req, res) {

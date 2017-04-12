@@ -27,12 +27,12 @@ app.use('/', routes);
 //url
 app.get('/api',keley.index)
 app.post('/api',keley.addCatalogue)
-app.put('/api',keley.updateCatalogue)
-app.delete('/api',keley.deleteCatalogue)
+app.put('/api/:id',keley.updateCatalogue)
+app.delete('/api/:id',keley.deleteCatalogue)
 app.get('/api/:id',keley.allProduit)
 app.post('/api/:id',keley.addProduit)
-app.put('/api/:id',keley.updateProduit)
-app.delete('/api/:id',keley.deleteProduit)
+app.put('/api/:id/:id',keley.updateProduit)
+app.delete('/api/:id/:id',keley.deleteProduit)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

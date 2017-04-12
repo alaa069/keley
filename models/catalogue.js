@@ -12,18 +12,18 @@ mongoose.connect(config.DataBase)
 
 // Tableau de produit
 var produit = new Schema({
-      nom          : { type: String, required: true, unique : true }
-    , code         : { type: String, required: true, unique : true }
+      nom          : { type: String, required: true}
+    , code         : { type: String, required: true}
     , description  : { type: String }
     , tarif        : { type: Number, required: true}
-    , poids        : { type: Number, required: true, unique : true }
+    , poids        : { type: Number, required: true}
     , updated_at   : { type: Date, default: Date.now }
 })
 
 // Tableau de catalogue
 var catalogue = new Schema({
-      nom               : { type: String, required: true, unique : true }
-    , code              : { type: String, required: true, unique : true }
+      nom               : { type: String, required: true}
+    , code              : { type: String, required: true}
     , nombre_produits   : { type: Number, default: 0 }
     , produit           : [produit]
     , updated_at        : { type: Date, default: Date.now }
