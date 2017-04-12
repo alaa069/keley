@@ -33,26 +33,23 @@ exports.deleteCatalogue = function (req, res, next) {
 }
 
 exports.allProduit = function (req, res, next) {
-    console.log(req.body.id)
     KELEY.findOne({_id: req.params.id}, function(err, doc){
         if (err) return next(err);
         else if (!doc) {console.log("Produit n'existe pas");return next(err);}
         else {
-            res.render('produit', { title: 'keley-consulting', results : doc.produit });
+            res.json(doc.produit);
         }
     })
 }
 
 exports.addProduit = function (req, res, next) {
-    var nomCatalogue = req.body.nomCatalogue;
-    var codeCatalogue = req.body.codeCatalogue;
     var nom = req.body.nom;
     var code = req.body.code;
     var description = req.body.description;
     var tarif = req.body.tarif;
     var poids = req.body.poids;
 
-    KELEY.findOne({$or:[{'_id': req.body.id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
+    KELEY.findOne({'_id': req.params.id}, function(err, doc){
         if (err) return next(err);
         else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
@@ -64,8 +61,9 @@ exports.addProduit = function (req, res, next) {
                 tarif         : tarif,
                 poids         : poids
             })
-            doc.save(function(err){
+            doc.save(function(err,data){
                 if (err) return next(err);
+                res.json(data.produit[data.produit.length-1]);
             })
         }
     })
@@ -74,43 +72,40 @@ exports.addProduit = function (req, res, next) {
 exports.updateProduit = function (req, res, next) {
     var nomCatalogue = req.body.nomCatalogue;
     var codeCatalogue = req.body.codeCatalogue;
-    var id = req.body.id;
     var nom = req.body.nom;
     var code = req.body.code;
     var description = req.body.description;
     var tarif = req.body.tarif;
     var poids = req.body.poids;
 
-    KELEY.findByIdAndUpdate({$or:[{'_id': req.body.id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
+    KELEY.findById(req.params.id, function(err, doc){
         if (err) return next(err);
         else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
-            doc.produit.name         = name;
-            doc.produit.code         = code;
-            doc.produit.description  = description;
-            doc.produit.tarif        = tarif;
-            doc.produit.poids        = poids;
-            doc.save(function(err){
+            doc.produit.id(req.params.idp).nom         = nom;
+            doc.produit.id(req.params.idp).code         = code;
+            doc.produit.id(req.params.idp).description  = description;
+            doc.produit.id(req.params.idp).tarif        = tarif;
+            doc.produit.id(req.params.idp).poids        = poids;
+            doc.save(function(err, data){
                 if (err) return next(err);
+                res.json(data);
             })
         }
     })
 }
 
 exports.deleteProduit = function (req, res, next) {
-    var nomCatalogue = req.body.nomCatalogue;
-    var codeCatalogue = req.body.codeCatalogue;
-    var idCatalogue = req.body.idCatalogue;
-    var idProduit = req.body.idProduit;
 
-    KELEY.findByIdAndUpdate({$or:[{'_id': req.body.id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
+    KELEY.findById(req.params.id, function(err, doc){
         if (err) return next(err);
         else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
             doc.nombre_produits = doc.nombre_produits - 1;
-            doc.produit.id(idProduit).remove();
-            doc.save(function(err){
+            doc.produit.id(req.params.idp).remove();
+            doc.save(function(err, data){
                 if (err) return next(err);
+                res.json(data);
             })
         }
     })

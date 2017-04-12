@@ -31,8 +31,8 @@ app.put('/api/:id',keley.updateCatalogue)
 app.delete('/api/:id',keley.deleteCatalogue)
 app.get('/api/:id',keley.allProduit)
 app.post('/api/:id',keley.addProduit)
-app.put('/api/:id/:id',keley.updateProduit)
-app.delete('/api/:id/:id',keley.deleteProduit)
+app.put('/api/:id/:idp',keley.updateProduit)
+app.delete('/api/:id/:idp',keley.deleteProduit)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

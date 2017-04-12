@@ -1,29 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
     <h1><%= title %></h1>
-    <table>
-        <tr>
+    <h2>Produit</h2>
+    <ng-view></ng-view>
+
+    <!-- Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+    
+    <script type="text/ng-template" id="/todos.html">
+      <table>
+          <tr>
             <th>nom</th>
             <th>code</th>
             <th>description</th>
             <th>tarif</th>
             <th>poids</th>
-        </tr>
-        
-    <% results.forEach(function(result) { %>
-      <tr>
-        <td><%= result.nom %></td>
-        <td><%= result.code %></td>
-        <td><%= result.description %></td>
-        <td><%= result.tarif %></td>
-        <td><%= result.poids %></td>
-       </tr>
-    <% }); %>
-    </table>
+            <th>config</th>
+          </tr>
+          <tr ng-repeat="todo in todos">
+            <td>
+              <p ng-show="!editing[$index]" href="/produit/{{todo._id}}">{{todo.nom}}</p>
+              <input ng-show="editing[$index]" type="text" ng-model="todo.nom">
+            </td>
+            <td>
+              <p ng-show="!editing[$index]" href="#/{{todo._id}}">{{todo.code}}</p>
+              <input ng-show="editing[$index]" type="text" ng-model="todo.code">
+            </td>
+            <td>
+              <p ng-show="!editing[$index]" href="/produit/{{todo._id}}">{{todo.description}}</p>
+              <input ng-show="editing[$index]" type="text" ng-model="todo.description">
+            </td>
+            <td>
+              <p ng-show="!editing[$index]" href="/produit/{{todo._id}}">{{todo.tarif}}</p>
+              <input ng-show="editing[$index]" type="text" ng-model="todo.tarif">
+            </td>
+            <td>
+              <p ng-show="!editing[$index]" href="/produit/{{todo._id}}">{{todo.poids}}</p>
+              <input ng-show="editing[$index]" type="text" ng-model="todo.poids">
+            </td>
+            <td>
+                <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
+                <button ng-show="editing[$index]" ng-click="update($index)">modifier</button>
+                <button ng-show="editing[$index]" ng-click="cancel($index)">annuler</button>
+                <button ng-show="!editing[$index]" ng-click="remove($index)">supprimer</button>
+            </td>
+          </tr>
+      </table>
+      Nouveau produit : <input type="text" ng-model="nom">
+      <input type="text" ng-model="code">
+      <input type="text" ng-model="description">
+      <input type="text" ng-model="tarif">
+      <input type="text" ng-model="poids">
+      <button ng-click="save()">Ajouter</button>
+    </script>
+    <script>
+      angular.module('app', ['ngRoute', 'ngResource'])
+
+        //---------------
+        // Services
+        //---------------
+
+        .factory('Todos', ['$resource', function($resource){
+          return $resource('/api/<%=idCat%>/:idp', null, {
+            'update': { method:'PUT' }
+          });
+        }])
+
+        //---------------
+        // Controllers
+        //---------------
+
+        .controller('TodoController', ['$scope', 'Todos', function ($scope, Todos) {
+          $scope.editing = [];
+          $scope.todos = Todos.query();
+
+          $scope.save = function(){
+            if(!$scope.nom || $scope.nom.length < 1) return;
+            if(!$scope.code || $scope.code.length < 1) return;
+            if(!$scope.description || $scope.description.length < 1) return;
+            if(!$scope.tarif || $scope.tarif.length < 1) return;
+            if(!$scope.poids || $scope.poids.length < 1) return;
+            var todo = new Todos({ nom: $scope.nom, code: $scope.code, description: $scope.description, tarif: $scope.tarif, poids: $scope.poids });
+
+            todo.$save(function(){
+              $scope.todos.push(todo);
+              $scope.nom = ''; // clear textbox
+              $scope.code = ''; // clear textbox
+              $scope.description = ''; // clear textbox
+              $scope.tarif = ''; // clear textbox
+              $scope.poids = ''; // clear textbox
+            });
+          }
+
+          $scope.update = function(index){
+            var todo = $scope.todos[index];
+            Todos.update({idp: todo._id}, todo);
+            $scope.editing[index] = false;
+          }
+
+          $scope.edit = function(index){
+            $scope.editing[index] = angular.copy($scope.todos[index]);
+          }
+
+          $scope.cancel = function(index){
+            $scope.todos[index] = angular.copy($scope.editing[index]);
+            $scope.editing[index] = false;
+          }
+
+          $scope.remove = function(index){
+            var todo = $scope.todos[index];
+            Todos.remove({idp: todo._id}, function(){
+              $scope.todos.splice(index, 1);
+            });
+          }
+        }])
+
+        //---------------
+        // Routes
+        //---------------
+
+        .config(['$routeProvider', function ($routeProvider) {
+          $routeProvider
+            .when('/', {
+              templateUrl: '/todos.html',
+              controller: 'TodoController'
+            })
+        }]);
+    </script>
   </body>
 </html>
