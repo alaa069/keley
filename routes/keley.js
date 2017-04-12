@@ -2,10 +2,11 @@ var KELEY = require('../models/catalogue').KELEY;
 
 exports.index = function (req, res) {
     KELEY.find({},{},function(err, doc){
-        if (err) console.log(err)
+        if (err) return next(err);
         else if (!doc) console.log("catalogue n'existe pas")
         else {
-            res.render('index', { title: 'keley-consulting', results : doc });
+            //res.render('index', { title: 'keley-consulting', results : doc });
+            res.json(doc);
         }
     })
 }
@@ -20,7 +21,7 @@ exports.addCatalogue = function (req, res) {
     })
 
     catalogue.save(function(err){
-        if (err) console.log(err)
+        if (err) return next(err);
     })
 }
 
@@ -32,14 +33,14 @@ exports.updateCatalogue = function (req, res) {
     var id = req.body.id;
 
     KELEY.findByIdAndUpdate({$or:[{'_id': id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
-        if (err) console.log(err)
-        else if (!doc) console.log("catalogue n'existe pas")
+        if (err) return next(err);
+        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
             doc.nom = nom;
             doc.code = code;
             
             doc.save(function(err){
-                if (err) console.log(err)
+                if (err) return next(err);
             })
         }
     })
@@ -51,8 +52,8 @@ exports.deleteCatalogue = function (req, res) {
     var id = req.body.id;
 
     KELEY.findByIdAndRemove({$or:[{'_id': id}, {'nom': nomCatalogue}, {'code': codeCatalogue} ]}, function(err, doc){
-        if (err) console.log(err)
-        else if (!doc) console.log("catalogue n'existe pas")
+        if (err) return next(err);
+        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
             
         }
@@ -62,8 +63,8 @@ exports.deleteCatalogue = function (req, res) {
 exports.allProduit = function (req, res) {
     console.log(req.body.id)
     KELEY.findOne({_id: req.body.id}, function(err, doc){
-        if (err) console.log(err)
-        else if (!doc) console.log("Produit n'existe pas")
+        if (err) return next(err);
+        else if (!doc) {console.log("Produit n'existe pas");return next(err);}
         else {
             res.render('produit', { title: 'keley-consulting', results : doc.produit });
         }
@@ -80,8 +81,8 @@ exports.addProduit = function (req, res) {
     var poids = req.body.poids;
 
     KELEY.findOne({$or:[{'_id': req.body.id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
-        if (err) console.log(err)
-        else if (!doc) console.log("catalogue n'existe pas")
+        if (err) return next(err);
+        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
             doc.nombre_produits = doc.nombre_produits + 1;
             doc.produit.push({
@@ -92,7 +93,7 @@ exports.addProduit = function (req, res) {
                 poids         : poids
             })
             doc.save(function(err){
-                if (err) console.log(err)
+                if (err) return next(err);
             })
         }
     })
@@ -109,8 +110,8 @@ exports.updateProduit = function (req, res) {
     var poids = req.body.poids;
 
     KELEY.findByIdAndUpdate({$or:[{'_id': req.body.id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
-        if (err) console.log(err)
-        else if (!doc) console.log("catalogue n'existe pas")
+        if (err) return next(err);
+        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
             doc.produit.name         = name;
             doc.produit.code         = code;
@@ -118,7 +119,7 @@ exports.updateProduit = function (req, res) {
             doc.produit.tarif        = tarif;
             doc.produit.poids        = poids;
             doc.save(function(err){
-                if (err) console.log(err)
+                if (err) return next(err);
             })
         }
     })
@@ -131,13 +132,13 @@ exports.deleteProduit = function (req, res) {
     var idProduit = req.body.idProduit;
 
     KELEY.findByIdAndUpdate({$or:[{'_id': req.body.id}, {'nom': nomCatalogue}, {'code': codeCatalogue}]}, function(err, doc){
-        if (err) console.log(err)
-        else if (!doc) console.log("catalogue n'existe pas")
+        if (err) return next(err);
+        else if (!doc) {console.log("catalogue n'existe pas");return next(err);}
         else {
             doc.nombre_produits = doc.nombre_produits - 1;
             doc.produit.id(idProduit).remove();
             doc.save(function(err){
-                if (err) console.log(err)
+                if (err) return next(err);
             })
         }
     })
