@@ -23,25 +23,25 @@
           </tr>
           <tr ng-repeat="todo in todos">
             <td>
-              <a ng-show="!editing[$index]" href="#/{{todo._id}}">{{todo.nom}}</a>
+              <a ng-show="!editing[$index]" href="api/{{todo._id}}">{{todo.nom}}</a>
               <input ng-show="editing[$index]" type="text" ng-model="todo.nom">
             </td>
             <td>
-              <a ng-show="!editing[$index]" href="#/{{todo._id}}">{{todo.code}}</a>
+              <a ng-show="!editing[$index]" href="api/{{todo._id}}">{{todo.code}}</a>
               <input ng-show="editing[$index]" type="text" ng-model="todo.code">
             </td>
             <td>{{todo.nombre_produits}}</td>
             <td>
                 <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
-                <button ng-show="editing[$index]" ng-click="update($index)">Update</button>
-                <button ng-show="editing[$index]" ng-click="cancel($index)">Cancel</button>
-                <button ng-show="!editing[$index]" ng-click="remove($index)">remove</button>
+                <button ng-show="editing[$index]" ng-click="update($index)">modifier</button>
+                <button ng-show="editing[$index]" ng-click="cancel($index)">annuler</button>
+                <button ng-show="!editing[$index]" ng-click="remove($index)">supprimer</button>
             </td>
           </tr>
       </table>
-      New task <input type="text" ng-model="nom">
+      Nouveau catalogue : <input type="text" ng-model="nom">
       <input type="text" ng-model="code">
-      <button ng-click="save()">Create</button>
+      <button ng-click="save()">Ajouter</button>
     </script>
     <script>
       angular.module('app', ['ngRoute', 'ngResource'])

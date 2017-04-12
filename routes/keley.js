@@ -5,7 +5,6 @@ exports.index = function (req, res) {
         if (err) return next(err);
         else if (!doc) console.log("catalogue n'existe pas")
         else {
-            //res.render('index', { title: 'keley-consulting', results : doc });
             res.json(doc);
         }
     })
@@ -19,23 +18,23 @@ exports.addCatalogue = function (req, res, next) {
     });
 }
 
-exports.updateCatalogue = function (req, res) {
+exports.updateCatalogue = function (req, res, next) {
     KELEY.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 }
 
-exports.deleteCatalogue = function (req, res) {
+exports.deleteCatalogue = function (req, res, next) {
     KELEY.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 }
 
-exports.allProduit = function (req, res) {
+exports.allProduit = function (req, res, next) {
     console.log(req.body.id)
-    KELEY.findOne({_id: req.body.id}, function(err, doc){
+    KELEY.findOne({_id: req.params.id}, function(err, doc){
         if (err) return next(err);
         else if (!doc) {console.log("Produit n'existe pas");return next(err);}
         else {
@@ -44,7 +43,7 @@ exports.allProduit = function (req, res) {
     })
 }
 
-exports.addProduit = function (req, res) {
+exports.addProduit = function (req, res, next) {
     var nomCatalogue = req.body.nomCatalogue;
     var codeCatalogue = req.body.codeCatalogue;
     var nom = req.body.nom;
@@ -72,7 +71,7 @@ exports.addProduit = function (req, res) {
     })
 }
 
-exports.updateProduit = function (req, res) {
+exports.updateProduit = function (req, res, next) {
     var nomCatalogue = req.body.nomCatalogue;
     var codeCatalogue = req.body.codeCatalogue;
     var id = req.body.id;
@@ -98,7 +97,7 @@ exports.updateProduit = function (req, res) {
     })
 }
 
-exports.deleteProduit = function (req, res) {
+exports.deleteProduit = function (req, res, next) {
     var nomCatalogue = req.body.nomCatalogue;
     var codeCatalogue = req.body.codeCatalogue;
     var idCatalogue = req.body.idCatalogue;
