@@ -1,23 +1,74 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #e9ebee
 }
 
 a {
   color: #00B7FF;
 }
 table {
-    font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
+th, td {
+    text-align: center;
     padding: 8px;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
+tr:nth-child(even){background-color: rgb(140, 140, 140)}
+
+th {
+    background-color: #4c6eaf;
+    color: white;
+}
+
+a:link, a:visited {
+    background-color: #3689f4;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+a:hover, a:active {
+    background-color: #73a9ef;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: #73a9ef;
+}
+.button2 {background-color: #008CBA;}
+.button3 {background-color: #f44336;} 
+.button4 {background-color: #e7e7e7; color: black;} 
+.button5 {background-color: #555555;}
+
+input.ng-invalid {
+    background-color:pink;
 }

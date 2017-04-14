@@ -7,6 +7,7 @@
   <body>
     <h1><%= title %></h1>
     <h2>Produit</h2>
+    <p><a href="/">Retour au Catalogue</a></p>
     <ng-view></ng-view>
 
     <!-- Libraries -->
@@ -15,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
     
     <script type="text/ng-template" id="/todos.html">
+    Chercher par nom de Produit: <input type="text" ng-model="search.nom">
       <table>
           <tr>
             <th>nom</th>
@@ -24,7 +26,7 @@
             <th>poids</th>
             <th>config</th>
           </tr>
-          <tr ng-repeat="todo in todos">
+          <tr ng-repeat="todo in todos | filter:search">
             <td>
               <p ng-show="!editing[$index]" href="/produit/{{todo._id}}">{{todo.nom}}</p>
               <input ng-show="editing[$index]" type="text" ng-model="todo.nom">
@@ -46,10 +48,10 @@
               <input ng-show="editing[$index]" type="text" ng-model="todo.poids">
             </td>
             <td>
-                <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
-                <button ng-show="editing[$index]" ng-click="update($index)">modifier</button>
-                <button ng-show="editing[$index]" ng-click="cancel($index)">annuler</button>
-                <button ng-show="!editing[$index]" ng-click="remove($index)">supprimer</button>
+                <button ng-show="!editing[$index]" ng-click="edit($index)" class="button button2">edit</button>
+                <button ng-show="editing[$index]" ng-click="update($index)" class="button button4">modifier</button>
+                <button ng-show="editing[$index]" ng-click="cancel($index)" class="button button5">annuler</button>
+                <button ng-show="!editing[$index]" ng-click="remove($index)" class="button button3">supprimer</button>
             </td>
           </tr>
       </table>
@@ -58,7 +60,7 @@
       <input type="text" ng-model="description">
       <input type="text" ng-model="tarif">
       <input type="text" ng-model="poids">
-      <button ng-click="save()">Ajouter</button>
+      <button ng-click="save()" class="button">Ajouter</button>
     </script>
     <script>
       angular.module('app', ['ngRoute', 'ngResource'])
