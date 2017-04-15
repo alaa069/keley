@@ -1,6 +1,6 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #e9ebee
 }
 
@@ -39,6 +39,7 @@ a:hover, a:active {
 }
 
 input[type=text], select {
+    font-size: 16px;
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;

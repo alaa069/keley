@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
     
     <script type="text/ng-template" id="/todos.html">
-    Chercher par nom de Catalogue: <input type="text" ng-model="search.nom">
+    Chercher par nom de Catalogue: <input type="text" ng-model="search.nom" placeholder="Chercher par nom de Catalogue">
       <table>
           <tr>
               <th>nom</th>
@@ -41,8 +41,11 @@
             </td>
           </tr>
       </table>
-      Nouveau catalogue : <input type="text" ng-model="nom" required>
-      <input type="text" ng-model="code" required>
+      Nouveau catalogue : 
+      <span>
+      <input type="text" ng-model="nom" required  placeholder="nom de catalogue">
+      <input type="text" ng-model="code" required placeholder="code de catalogue">
+      <span>
       <button ng-click="save()" class="button">Ajouter</button>
     </script>
     <script>
