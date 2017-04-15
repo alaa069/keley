@@ -1,5 +1,7 @@
 # keley-consulting
 
+### Ce code est une intégration de Angular.js, Node.js et MongoDB.
+
 ## __Objectifs :__ Gérer un catalogue de produits
 
 * __User stories :__
