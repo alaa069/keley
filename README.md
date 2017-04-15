@@ -33,3 +33,12 @@
     - Faire une popin d’ajout, de modification et de suppression de produits
 
     - Refraichir sans rechargement ces listes à l’ajout / modification / suppression d’un produit
+
+# Dépendances :
+
+    - Angular 1.2
+    - JavaScript
+    - EJS
+    - ExpressJS
+    - NodeJS
+    - MongoDB
