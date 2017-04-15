@@ -36,9 +36,10 @@
 
 # Dépendances :
 
-    - Angular 1.2
-    - JavaScript
-    - EJS
-    - ExpressJS
-    - NodeJS
-    - MongoDB
+- __Angular 1.2__
+- __JavaScript__
+- __EJS__
+- __ExpressJS__
+- __NodeJS__
+- __MongoDB__
+- __Mongoose__
