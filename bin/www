@@ -4,16 +4,30 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('keley_API:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('keley_API:server');
+const http = require('http');
+const fs = require('fs');
+const https = require('https');
+const path = require('path');
+const env = process.env.NODE_ENV || "development";
+const Config = require('../config/config')[env];
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3030');
+// certeficat test
+var options = {
+  key: fs.readFileSync(path.resolve(__dirname,'../' + Config.keySSL)),
+  cert: fs.readFileSync(path.resolve(__dirname,'../' + Config.certSSL))
+};
+
+var port = normalizePort(process.env.PORT || Config.portHTTP);
 app.set('port', port);
+
+var ports = normalizePort(process.env.PORT || Config.portHTTPS);
+app.set('ports', ports);
 
 /**
  * Create HTTP server.
@@ -21,13 +35,18 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+var secureServer = https.createServer(options, app);
+
 /**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
+secureServer.listen(ports);
 server.on('error', onError);
+secureServer.on('error', onError);
 server.on('listening', onListening);
+secureServer.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.

@@ -1,15 +1,6 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
-// fichier de configuration
-var config = require('../config/config')
-
-// Connection au base de donné MongoDB
-mongoose.connect(config.DataBase)
-    .then(() =>  console.log('connection reussit'))
-    .catch((err) => console.error(err));
-//mongoose.set('debug', true);
-
 // Tableau de produit
 var produit = new Schema({
       nom          : { type: String, required: true}

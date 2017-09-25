@@ -1,12 +1,22 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const env = process.env.NODE_ENV || "development";
+const Config = require('./config/config')[env];
 
 var routes = require('./routes/index');
 var keley = require('./routes/keley');
+
+// Connect to DBs
+mongoose.Promise = global.Promise;
+mongoose.connect(Config.DataBase,{useMongoClient: true,})
+  .then(() =>  console.log('Connection to DataBase success'))
+  .catch((err) => console.error('Connection to DataBase failed'));
+mongoose.set('debug', true);
 
 var app = express();
 
